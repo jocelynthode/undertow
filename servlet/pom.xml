@@ -177,9 +177,9 @@
                         <java.net.preferIPv6Addresses>${test.ipv6}</java.net.preferIPv6Addresses>
                         <alpn-boot-string>${alpn-boot-string}</alpn-boot-string>
                         <sun.net.useExclusiveBind>false</sun.net.useExclusiveBind>
-                        <io.undertow.openssl.path>/usr/local/opt/openssl/lib</io.undertow.openssl.path>
+                        <!--<io.undertow.openssl.path>/usr/lib</io.undertow.openssl.path>-->
                     </systemPropertyVariables>
-                    <argLine>-Djava.library.path=/Users/stuart/workspace/undertow-openssl/libutssl  ${alpn-boot-string} ${jacoco.agent.argLine} ${surefire.system.args}</argLine>
+                    <argLine>-Djava.library.path=/home/simon/Dev/redhat/ssl-experiments/libutssl  ${alpn-boot-string} ${jacoco.agent.argLine} ${surefire.system.args}</argLine>
                 </configuration>
             </plugin>
         </plugins>

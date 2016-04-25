@@ -39,6 +39,7 @@ import io.undertow.Undertow;
 import io.undertow.UndertowOptions;
 import io.undertow.attribute.ExchangeAttributes;
 import io.undertow.examples.UndertowExample;
+import io.undertow.openssl.OpenSSLProvider;
 import io.undertow.protocols.ssl.UndertowXnioSsl;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
@@ -139,8 +140,9 @@ public class Http2Server {
         trustManagerFactory.init(trustStore);
         trustManagers = trustManagerFactory.getTrustManagers();
 
+        OpenSSLProvider.register();
         SSLContext sslContext;
-        sslContext = SSLContext.getInstance("TLS");
+        sslContext = SSLContext.getInstance("openssl.TLSv1");
         sslContext.init(keyManagers, trustManagers, null);
 
         return sslContext;
