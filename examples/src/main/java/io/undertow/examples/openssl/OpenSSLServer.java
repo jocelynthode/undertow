@@ -23,7 +23,7 @@ import io.undertow.Undertow;
 import io.undertow.UndertowOptions;
 import io.undertow.attribute.ExchangeAttributes;
 import io.undertow.examples.UndertowExample;
-import io.undertow.openssl.OpenSSLProvider;
+import org.apache.tomcat.util.net.openssl.OpenSSLProvider;
 import io.undertow.protocols.ssl.UndertowXnioSsl;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
@@ -86,19 +86,19 @@ public class OpenSSLServer {
 
         server.start();
 
-        SSLContext clientSslContext = createSSLContext(loadKeyStore("client.keystore"), loadKeyStore("client.truststore"));
-        LoadBalancingProxyClient proxy = new LoadBalancingProxyClient()
-                .addHost(new URI("https://localhost:8443"), null, new UndertowXnioSsl(Xnio.getInstance(), OptionMap.EMPTY, clientSslContext), OptionMap.create(UndertowOptions.ENABLE_HTTP2, true))
-                .setConnectionsPerThread(20);
-
-        Undertow reverseProxy = Undertow.builder()
-                .setServerOption(UndertowOptions.ENABLE_HTTP2, true)
-                .setServerOption(UndertowOptions.ENABLE_SPDY, true)
-                .addHttpListener(8081, bindAddress)
-                .addHttpsListener(8444, bindAddress, sslContext)
-                .setHandler(new ProxyHandler(proxy, 30000, ResponseCodeHandler.HANDLE_404))
-                .build();
-        reverseProxy.start();
+//        SSLContext clientSslContext = createSSLContext(loadKeyStore("client.keystore"), loadKeyStore("client.truststore"));
+//        LoadBalancingProxyClient proxy = new LoadBalancingProxyClient()
+//                .addHost(new URI("https://localhost:8443"), null, new UndertowXnioSsl(Xnio.getInstance(), OptionMap.EMPTY, clientSslContext), OptionMap.create(UndertowOptions.ENABLE_HTTP2, true))
+//                .setConnectionsPerThread(20);
+//
+//        Undertow reverseProxy = Undertow.builder()
+//                .setServerOption(UndertowOptions.ENABLE_HTTP2, true)
+//                .setServerOption(UndertowOptions.ENABLE_SPDY, true)
+//                .addHttpListener(8081, bindAddress)
+//                .addHttpsListener(8444, bindAddress, sslContext)
+//                .setHandler(new ProxyHandler(proxy, 30000, ResponseCodeHandler.HANDLE_404))
+//                .build();
+//        reverseProxy.start();
 
     }
 
@@ -138,6 +138,7 @@ public class OpenSSLServer {
         OpenSSLProvider.register();
         SSLContext sslContext;
         sslContext = SSLContext.getInstance("openssl.TLSv1");
+//        sslContext = SSLContext.getInstance("TLSv1");
         sslContext.init(keyManagers, trustManagers, null);
 
         return sslContext;
