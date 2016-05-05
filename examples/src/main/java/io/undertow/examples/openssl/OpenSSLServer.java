@@ -38,6 +38,7 @@ import io.undertow.server.session.SessionCookieConfig;
 import io.undertow.util.Headers;
 import io.undertow.util.StatusCodes;
 import org.xnio.OptionMap;
+import org.xnio.Options;
 import org.xnio.Xnio;
 
 import javax.net.ssl.*;
@@ -72,7 +73,7 @@ public class OpenSSLServer {
         SSLContext sslContext = createSSLContext(loadKeyStore("server.keystore"), loadKeyStore("server.truststore"));
         Undertow server = Undertow.builder()
                 .setServerOption(UndertowOptions.ENABLE_HTTP2, true)
-                .setServerOption(UndertowOptions.ENABLE_SPDY, true)
+                .setServerOption(UndertowOptions.ENABLE_SPDY, false)
                 .addHttpListener(8080, bindAddress)
                 .addHttpsListener(8443, bindAddress, sslContext)
                 .setHandler(new SessionAttachmentHandler(new LearningPushHandler(100, -1, Handlers.header(predicate(secure(), resource(new PathResourceManager(Paths.get(System.getProperty("example.directory", System.getProperty("user.home"))), 100))
@@ -83,7 +84,7 @@ public class OpenSSLServer {
                         exchange.setStatusCode(StatusCodes.TEMPORARY_REDIRECT);
                     }
                 }), "x-undertow-transport", ExchangeAttributes.transportProtocol())), new InMemorySessionManager("test"), new SessionCookieConfig())).build();
-
+        // TODO: set Options.SSL_ENABLE_SESSION_CREATION to false
         server.start();
 
 //        SSLContext clientSslContext = createSSLContext(loadKeyStore("client.keystore"), loadKeyStore("client.truststore"));
