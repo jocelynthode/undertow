@@ -74,6 +74,7 @@ public class OpenSSLServer {
         Undertow server = Undertow.builder()
                 .setServerOption(UndertowOptions.ENABLE_HTTP2, true)
                 .setServerOption(UndertowOptions.ENABLE_SPDY, false)
+                .setSocketOption(Options.SSL_ENABLE_SESSION_CREATION, false)
                 .addHttpListener(8080, bindAddress)
                 .addHttpsListener(8443, bindAddress, sslContext)
                 .setHandler(new SessionAttachmentHandler(new LearningPushHandler(100, -1, Handlers.header(predicate(secure(), resource(new PathResourceManager(Paths.get(System.getProperty("example.directory", System.getProperty("user.home"))), 100))
@@ -84,8 +85,8 @@ public class OpenSSLServer {
                         exchange.setStatusCode(StatusCodes.TEMPORARY_REDIRECT);
                     }
                 }), "x-undertow-transport", ExchangeAttributes.transportProtocol())), new InMemorySessionManager("test"), new SessionCookieConfig())).build();
-        // TODO: set Options.SSL_ENABLE_SESSION_CREATION to false
         server.start();
+
 
 //        SSLContext clientSslContext = createSSLContext(loadKeyStore("client.keystore"), loadKeyStore("client.truststore"));
 //        LoadBalancingProxyClient proxy = new LoadBalancingProxyClient()
@@ -94,7 +95,7 @@ public class OpenSSLServer {
 //
 //        Undertow reverseProxy = Undertow.builder()
 //                .setServerOption(UndertowOptions.ENABLE_HTTP2, true)
-//                .setServerOption(UndertowOptions.ENABLE_SPDY, true)
+//                .setServerOption(UndertowOptions.ENABLE_SPDY, false)
 //                .addHttpListener(8081, bindAddress)
 //                .addHttpsListener(8444, bindAddress, sslContext)
 //                .setHandler(new ProxyHandler(proxy, 30000, ResponseCodeHandler.HANDLE_404))
@@ -138,7 +139,7 @@ public class OpenSSLServer {
 
         OpenSSLProvider.register();
         SSLContext sslContext;
-        sslContext = SSLContext.getInstance("openssl.TLSv1");
+        sslContext = SSLContext.getInstance("openssl.TLSv1.2");
 //        sslContext = SSLContext.getInstance("TLSv1");
         sslContext.init(keyManagers, trustManagers, null);
 
