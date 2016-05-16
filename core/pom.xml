@@ -76,27 +76,10 @@
 
         <dependency>
             <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-util</artifactId>
+            <artifactId>tomcat-native2</artifactId>
             <version>1.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-jni</artifactId>
-            <version>1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-juli</artifactId>
-            <version>1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-coyote</artifactId>
-            <version>1.0</version>
-        </dependency>
 
         <dependency>
             <groupId>org.eclipse.jetty.alpn</groupId>
