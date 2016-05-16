@@ -19,7 +19,6 @@
 package io.undertow.testutils;
 
 import io.undertow.UndertowOptions;
-import io.undertow.openssl.OpenSSLProvider;
 import io.undertow.protocols.ssl.UndertowXnioSsl;
 import io.undertow.security.impl.GSSAPIAuthenticationMechanism;
 import io.undertow.server.DefaultByteBufferPool;
@@ -43,6 +42,7 @@ import io.undertow.util.NetworkUtils;
 import io.undertow.util.SingleByteStreamSinkConduit;
 import io.undertow.util.SingleByteStreamSourceConduit;
 
+import org.apache.tomcat.util.net.openssl.OpenSSLProvider;
 import org.jboss.logging.Logger;
 import org.junit.Assume;
 import org.junit.Ignore;
@@ -184,7 +184,7 @@ public class DefaultServer extends BlockJUnit4ClassRunner {
                 sslContext = SSLContext.getInstance("TLS");
                 sslContext.init(keyManagers, trustManagers, new SecureRandom());
             } else {
-                sslContext = SSLContext.getInstance("openssl.TLSv1");
+                sslContext = SSLContext.getInstance("openssl.TLSv1.2");
                 sslContext.init(keyManagers, trustManagers, new SecureRandom());
             }
         } catch (Exception e) {
@@ -286,6 +286,7 @@ public class DefaultServer extends BlockJUnit4ClassRunner {
                         .set(Options.REUSE_ADDRESSES, true)
                         .set(Options.BALANCING_TOKENS, 1)
                         .set(Options.BALANCING_CONNECTIONS, 2)
+                        .set(Options.SSL_ENABLE_SESSION_CREATION, false)
                         .getMap();
                 final SSLContext serverContext = createSSLContext(loadKeyStore(SERVER_KEY_STORE), loadKeyStore(SERVER_TRUST_STORE), false);
                 UndertowXnioSsl ssl = new UndertowXnioSsl(worker.getXnio(), OptionMap.EMPTY, SSL_BUFFER_POOL, serverContext);
