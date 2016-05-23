@@ -35,6 +35,7 @@ import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.logging.Level;
@@ -263,7 +264,19 @@ public abstract class OpenSSLContextSPI extends SSLContextSpi {
 //    }
 
     public SSLEngine createSSLEngine() {
-        return new OpenSSLEngine(ctx, defaultProtocol, false, null, false);
+        OpenSSLEngine sslEngine = new OpenSSLEngine(ctx, defaultProtocol, false, null, false);
+        sslEngine.setServerALPNCallback(new ServerALPNCallback() {
+            @Override
+            public String select(String[] data) {
+                // TODO: Use jetty ALPN
+                System.out.println(Arrays.toString(data));
+                if (Arrays.asList(data).contains("h2")) {
+                    return "h2";
+                }
+                return null;
+            }
+        });
+        return sslEngine;
     }
 
     public SSLServerSocketFactory getServerSocketFactory() {
