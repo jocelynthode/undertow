@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -u
 
 # Path to tomcat repo (built)
 TCN2="$1"
