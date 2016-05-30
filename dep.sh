@@ -3,4 +3,4 @@
 # Path to tomcat repo (built)
 TCN2="$1"
 
-mvn install:install-file "-Dfile=$TCN2/dist/tomcat-native-1.2.5.jar" -DgroupId=org.apache.tomcat -DartifactId=tomcat-native2 -Dversion=1.0 -Dpackaging=jar;
+mvn install:install-file "-Dfile=$TCN2/dist/tomcat-native-1.2.8.jar" -DgroupId=org.apache.tomcat -DartifactId=tomcat-native2 -Dversion=1.0 -Dpackaging=jar;
