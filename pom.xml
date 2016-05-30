@@ -287,12 +287,6 @@
             </dependency>
 
             <dependency>
-                <groupId>io.undertow.openssl</groupId>
-                <artifactId>undertow-openssl</artifactId>
-                <version>${version.io.undertow.openssl}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>org.jboss.classfilewriter</groupId>
                 <artifactId>jboss-classfilewriter</artifactId>
                 <version>${version.org.jboss.classfilewriter}</version>

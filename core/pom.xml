@@ -90,11 +90,6 @@
         <!-- Test dependencies -->
 
         <dependency>
-            <groupId>io.undertow.openssl</groupId>
-            <artifactId>undertow-openssl</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <scope>test</scope>
