@@ -269,7 +269,6 @@ public abstract class OpenSSLContextSPI extends SSLContextSpi {
             @Override
             public String select(String[] data) {
                 // TODO: Use jetty ALPN
-                System.out.println(Arrays.toString(data));
                 if (Arrays.asList(data).contains("h2")) {
                     return "h2";
                 }
